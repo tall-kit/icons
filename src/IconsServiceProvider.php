@@ -2,7 +2,9 @@
 
 namespace TallKit\Icons;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use TallKit\Icons\Components\Icon;
 
 class IconsServiceProvider extends ServiceProvider
 {
@@ -21,7 +23,7 @@ class IconsServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('icons.php'),
+                __DIR__.'/../config/tall-icons.php' => config_path('tall-icons.php'),
             ], 'config');
 
             // Publishing the views.
@@ -50,11 +52,21 @@ class IconsServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'icons');
+        $this->mergeConfigFrom(__DIR__.'/../config/tall-icons.php', 'tall-icons');
+
+        $this->registerComponents();
 
         // Register the main class to use with the facade
-        $this->app->singleton('icons', function () {
-            return new Icons;
-        });
+//        $this->app->singleton('icons', function () {
+//            return new Icons;
+//        });
+    }
+
+    /**
+     * @return void
+     */
+    private function registerComponents(): void
+    {
+        Blade::component(Icon::class, 'icon');
     }
 }

@@ -1,0 +1,1 @@
+<x-icon name="heroicon.badge-check"/>
