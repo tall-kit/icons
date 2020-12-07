@@ -3,7 +3,11 @@
     "description": "Laravel package for rendering SVG icon as blade component",
     "keywords": [
         "tall-kit",
-        "icons"
+        "laravel",
+        "icons",
+        "blade",
+        "components",
+        "SVG"
     ],
     "homepage": "https://github.com/tall-kit/icons",
     "license": "MIT",
@@ -16,12 +20,13 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "illuminate/support": "^6.0"
+        "php": "^7.2.5|^8.0",
+        "illuminate/support": "^7.30|^8.0",
+        "illuminate/view": "^7.30|^8.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0",
-        "phpunit/phpunit": "^8.0"
+        "orchestra/testbench": "^5.8",
+        "phpunit/phpunit": "^8.4|^9.3.3"
     },
     "autoload": {
         "psr-4": {
@@ -30,7 +35,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "TallKit\\Icons\\Tests\\": "tests"
+            "Tests\\": "tests"
         }
     },
     "scripts": {
