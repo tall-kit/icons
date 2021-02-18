@@ -1,1 +1,1 @@
-<x-icon name="heroicon.badge-check"/>
+<x-icon name="heroicons.badge-check"/>

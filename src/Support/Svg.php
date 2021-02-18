@@ -3,6 +3,7 @@
 namespace TallKit\Icons\Support;
 
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\View\ComponentAttributeBag;
 
 /**
  * Class Svg
@@ -16,16 +17,16 @@ class Svg implements Htmlable
     private $svg;
 
     /**
-     * @var array
+     * @var ComponentAttributeBag|null
      */
     private $attributes;
 
     /**
      * Svg constructor.
      * @param string $svg
-     * @param array $attributes
+     * @param ComponentAttributeBag|null $attributes
      */
-    public function __construct(string $svg, array $attributes = [])
+    public function __construct(string $svg, ComponentAttributeBag $attributes = null)
     {
         $this->svg = file_exists($svg) ? file_get_contents($svg) : $svg;
         $this->attributes = $attributes;
@@ -33,10 +34,10 @@ class Svg implements Htmlable
 
     /**
      * @param string $svg
-     * @param array $attributes
+     * @param ComponentAttributeBag $attributes
      * @return Svg
      */
-    public static function make(string $svg, array $attributes): Svg
+    public static function make(string $svg, ComponentAttributeBag $attributes): Svg
     {
         return new Svg($svg, $attributes);
     }
@@ -56,11 +57,26 @@ class Svg implements Htmlable
      */
     private function removeSpaceBetweenTags(): void
     {
-        $this->svg = preg_replace( '/>(\s)+</m', '><', $this->svg);
+        // Remove whitespace
+        $pattern = ['/>(\s)+</m'];
+        $replacement = ['><'];
+        if($this->attributes) {
+            foreach($this->attributes->getIterator()->getArrayCopy() as $key => $value) {
+                $pattern[] = '/\s(' . $key . ')="([^\'"]*)"/';
+                $replacement[] = '';
+            }
+        }
+        $this->svg = preg_replace( $pattern, $replacement, $this->svg);
     }
 
-    private function addAttributes()
+    /**
+     * @return void
+     */
+    private function addAttributes(): void
     {
-
+        if(!$this->attributes) {
+            return;
+        }
+        $this->svg = str_replace('<svg', "<svg {$this->attributes}", $this->svg);
     }
 }

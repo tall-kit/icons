@@ -48,10 +48,7 @@ class Icon extends View\Component
         $filePath .= "/{$iconName}.svg";
 
         return function (array $data) use ($filePath) {
-            /** @var View\ComponentAttributeBag $attributeBag */
-            $attributeBag = $data['attributes'];
-
-            return Svg::make($filePath, $attributeBag->getIterator()->getArrayCopy())->toHtml();
+            return Svg::make($filePath, $data['attributes'])->toHtml();
         };
     }
 }
