@@ -47,7 +47,7 @@ class Svg implements Htmlable
      */
     public function toHtml(): string
     {
-        $this->removeSpaceBetweenTags();
+        $this->removeAttributesIfNeeded();
         $this->addAttributes();
         return $this->svg;
     }
@@ -55,7 +55,7 @@ class Svg implements Htmlable
     /**
      * @return void
      */
-    private function removeSpaceBetweenTags(): void
+    private function removeAttributesIfNeeded(): void
     {
         // Remove whitespace
         $pattern = ['/>(\s)+</m'];
